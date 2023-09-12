@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  server:
+    build: ./server
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./server/:/app/
+    depends_on:
+    - db
+    environment:
+      - SQL_ENGINE=django.db.backends.postgresql
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DJANGO_CONFIGURATION=Dev
+      - DJANGO_SECRET_KEY=my_super_secret_key
+      - DJANGO_CORS_ALLOWED_ORIGINS=http://localhost:3000
+      - DJANGO_ALLOWED_HOSTS=localhost
+    stdin_open: true
+    tty: true
+ # database
+  db:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+volumes:
+  postgres_data:
