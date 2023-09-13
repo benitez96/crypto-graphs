@@ -13,7 +13,7 @@ def fetch_chart_data(coin, currency, days=90):
         gecko_client = CoinGeckoClient("https://api.coingecko.com/api/v3")
         chart_data = gecko_client.get_market_chart_data(coin.external_id, currency.symbol, days)
 
-        exchange = Exchange.objects.get(coin=coin, currency=currency)
+        exchange, _ = Exchange.objects.get_or_create(coin=coin, currency=currency)
 
         for price, caps, vol in zip(chart_data.prices, chart_data.market_caps, chart_data.total_volumes):
             History.objects.update_or_create(

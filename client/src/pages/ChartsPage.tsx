@@ -1,9 +1,13 @@
+import { Box } from "@mui/material"
+import { TimeSeriesChart } from "../components/TimesSeriesChart"
 
 
 
 export const ChartsPage = () => {
 
   return (
-  <p>Charts</p>
+    <Box sx={{ color: 'black' }} mt={20}>
+      <TimeSeriesChart />
+    </Box>
   )
 }

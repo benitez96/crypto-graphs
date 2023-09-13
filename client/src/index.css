@@ -16,3 +16,10 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+@media screen and (max-width: 768px) {
+  .apexcharts-title-text {
+    font-size: 12px;
+    translate: 10% 5%;
+  }
+}

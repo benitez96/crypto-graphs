@@ -41,3 +41,19 @@ class HistoryView(generics.ListAPIView):
         response = super().list(request, *args, **kwargs)
 
         return response
+
+class ExchangeView(generics.ListAPIView):
+
+    serializer_class = ExchangeSerializer
+    queryset = Exchange.objects.all()
+
+
+
+class CoinView(generics.ListAPIView):
+
+    serializer_class = CoinSerializer
+    queryset = Coin.objects.all()
+
+
+
+

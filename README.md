@@ -36,7 +36,7 @@ Before using the API, you need to populate the database with information about c
 To fetch information about specified cryptocurrencies (e.g., btc, eth, usdt), run the following command:
 
    ```shell
-    docker-compose exec server python manage.py fetch_coins btc eth usdt
+    docker-compose exec server python manage.py fetch_coins btc eth mrk bnb xmr
    ```
 ### Accessing the API
 Once you have configured and populated the database, you can access the API via Swagger at the following URL: [Open swagger](http://localhost:8000/swagger)

@@ -1,5 +1,6 @@
+from coins.tasks import fetch_chart_data
 from django.core.management.base import BaseCommand
-from coins.models import Coin
+from coins.models import Coin, Currency
 import requests
 
 class Command(BaseCommand):
@@ -17,6 +18,7 @@ class Command(BaseCommand):
         api_url = 'https://api.coingecko.com/api/v3/coins/list?include_platform=false'
 
         try:
+            currency = Currency.objects.create(symbol='usd')
             response = requests.get(api_url)
             response.raise_for_status()
             coins_data = response.json()
@@ -35,6 +37,11 @@ class Command(BaseCommand):
                     if created: created_coins += 1
 
             print(f'Created {created_coins} coins')
+
+
+            for coin in Coin.objects.all():
+                fetch_chart_data.delay(coin.symbol, currency.symbol)
+        
 
         except requests.exceptions.RequestException as e:
             self.stdout.write(self.style.ERROR(f'Error making the request: {e}'))
