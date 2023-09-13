@@ -26,3 +26,6 @@ class History(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2)
     market_cap = models.DecimalField(max_digits=20, decimal_places=2)
     total_volume = models.DecimalField(max_digits=20, decimal_places=2)
+
+    class Meta():
+        ordering = ('-date',)

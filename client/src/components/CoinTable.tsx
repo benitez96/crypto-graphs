@@ -36,6 +36,9 @@ export const CoinTable = ({ coin }: Props) => {
 
   if (data) return (
     <div>
+      <Typography variant='h6' textAlign='center' mb={2}>
+        { coin.toUpperCase() } vs USD
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useCoinChart } from '../hooks/useCoinChart';
 
