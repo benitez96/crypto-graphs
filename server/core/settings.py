@@ -35,8 +35,12 @@ class Dev(Configuration):
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'rest_framework',
+        'django_filters',
+        'celery',
+        'django_celery_results',
         'drf_yasg',
         'corsheaders',
+        'coins',
     ]
 
     MIDDLEWARE = [
@@ -47,7 +51,7 @@ class Dev(Configuration):
         # 'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
 
     ROOT_URLCONF = 'core.urls'
@@ -104,23 +108,22 @@ class Dev(Configuration):
         },
     ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
+    REST_FRAMEWORK = {
+        # Use Django's standard `django.contrib.auth` permissions,
+        # or allow read-only access for unauthenticated users.
+        "DEFAULT_FILTER_BACKENDS": [
+            "django_filters.rest_framework.DjangoFilterBackend",
+            "rest_framework.filters.OrderingFilter",
+        ],
+    }
 
     LANGUAGE_CODE = 'en-us'
-
     TIME_ZONE = 'UTC'
-
     USE_I18N = True
-
     USE_TZ = True
-
-
     STATIC_URL = values.Value('/static/')
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -146,12 +149,14 @@ class Dev(Configuration):
         }
     }
 
+    CELERY_RESULT_BACKEND = values.Value()
+    CELERY_BROKER_URL = values.Value()
+
 
 class Prod(Dev):
     """
     The in-production settings.
     """
 
-    DOTENV = os.path.join(Dev.BASE_DIR, '.env.dev')
     DEBUG = False
     TEMPLATE_DEBUG = DEBUG

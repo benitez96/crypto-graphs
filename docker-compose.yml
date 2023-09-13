@@ -8,19 +8,26 @@ services:
     volumes:
       - ./server/:/app/
     depends_on:
-    - db
-    environment:
-      - SQL_ENGINE=django.db.backends.postgresql
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - DJANGO_CONFIGURATION=Dev
-      - DJANGO_SECRET_KEY=my_super_secret_key
-      - DJANGO_CORS_ALLOWED_ORIGINS=http://localhost:3000
-      - DJANGO_ALLOWED_HOSTS=localhost
+      - db
+      - redis
+    env_file:
+      - server/.env.dev
     stdin_open: true
     tty: true
- # database
+
+  celery:
+    build: ./server
+    command: "celery -A core worker -l INFO -E"
+    depends_on:
+      - server
+    env_file:
+      - server/.env.dev
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+
   db:
     image: postgres:13
     ports:
@@ -28,7 +35,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=mutt
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 volumes:

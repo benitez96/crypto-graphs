@@ -5,3 +5,8 @@ django-configurations
 djangorestframework
 drf-yasg
 django-cors-headers
+django-filter
+requests
+celery
+django-celery-results
+redis
