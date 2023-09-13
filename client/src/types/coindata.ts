@@ -21,3 +21,10 @@ export type Coin = {
   symbol: string
   name: string
 }
+
+export type PaginatedHistory = {
+  count: number
+  next: string | null
+  previous: string | null,
+  results: History[]
+}
