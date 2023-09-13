@@ -1,6 +1,8 @@
 from datetime import timedelta 
 from django.utils import timezone
 from rest_framework import generics, pagination
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from coins.tasks import fetch_chart_data
 
@@ -16,6 +18,10 @@ class HistoryView(generics.ListAPIView):
     serializer_class = HistorySerializer
     ordering_fields = ['date', 'price', 'volume', 'market_cap']
     pagination_class = pagination.LimitOffsetPagination
+
+    @method_decorator(cache_page(60*10))
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
 
     def get_queryset(self):
         coin = self.request.query_params.get('coin')
@@ -40,6 +46,10 @@ class ExchangeView(generics.ListAPIView):
     serializer_class = ExchangeSerializer
     queryset = Exchange.objects.all()
 
+    @method_decorator(cache_page(60*10))
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
+
     def get_queryset(self):
         qs = super().get_queryset()
         for exchange in qs:
@@ -55,5 +65,8 @@ class CoinView(generics.ListAPIView):
     queryset = Coin.objects.all()
 
 
+    @method_decorator(cache_page(60*60))
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
 
 
