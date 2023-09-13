@@ -17,7 +17,6 @@ class HistoryView(generics.ListAPIView):
     ordering_fields = ['date', 'price', 'volume', 'market_cap']
     pagination_class = pagination.LimitOffsetPagination
 
-
     def get_queryset(self):
         coin = self.request.query_params.get('coin')
         currency = self.request.query_params.get('currency')
@@ -35,18 +34,19 @@ class HistoryView(generics.ListAPIView):
 
         return History.objects.none()
 
-    def list(self, request, *args, **kwargs):
-        # __import__('pdb').set_trace()
-        qs = self.get_queryset()
-        response = super().list(request, *args, **kwargs)
-
-        return response
 
 class ExchangeView(generics.ListAPIView):
 
     serializer_class = ExchangeSerializer
     queryset = Exchange.objects.all()
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        for exchange in qs:
+            if exchange.last_updated < timezone.now() - timedelta(minutes=10):
+                fetch_chart_data.delay(exchange.coin.symbol, exchange.currency.symbol)
+
+        return qs
 
 
 class CoinView(generics.ListAPIView):
