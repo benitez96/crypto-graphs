@@ -9,7 +9,7 @@ Before running the application for the first time, make sure to follow these ste
 1. Clone this repository to your local machine:
 
    ```shell
-   git clone git@github.com:mutt-data-exams/exam-daniel-benitez.git muttchallenge
+   git clone git@github.com:mutt-data-exams/exam-daniel-benitez.git --branch develop muttchallenge
    ```
 
 
@@ -40,4 +40,8 @@ To fetch information about specified cryptocurrencies (e.g., btc, eth, usdt), ru
    ```
 ### Accessing the API
 Once you have configured and populated the database, you can access the API via Swagger at the following URL: [Open swagger](http://localhost:8000/swagger)
+
+
+### Accessing Web App
+Now you can open the [website](http://localhost:3000)
 
