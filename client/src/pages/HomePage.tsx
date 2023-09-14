@@ -1,9 +1,13 @@
+import { Typography } from "@mui/material"
 
 
 export const HomePage = () => {
 
   return (
-  <p>Home</p>
+
+    <Typography variant="h5" textAlign="center" mt={20}>
+      Welcome to Mutt Data Challenge 🚀
+    </Typography>
   )
 
 }

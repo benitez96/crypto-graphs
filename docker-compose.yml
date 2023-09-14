@@ -1,5 +1,12 @@
 version: "3.9"
 services:
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    command: sh -c "yarn dev"
   server:
     build: ./server
     ports:
@@ -14,7 +21,6 @@ services:
       - server/.env.dev
     stdin_open: true
     tty: true
-
   celery:
     build: ./server
     command: "celery -A core worker -l INFO -E"
@@ -22,12 +28,10 @@ services:
       - server
     env_file:
       - server/.env.dev
-
   redis:
     image: redis:7-alpine
     ports:
       - 6379:6379
-
   db:
     image: postgres:13
     ports:

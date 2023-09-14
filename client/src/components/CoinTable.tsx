@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TablePagination, Typography } from '@mui/material';
+import { Box, TablePagination, Typography } from '@mui/material';
 import { useCoinTable } from '../hooks/useCoinTable';
 
 
@@ -35,7 +35,12 @@ export const CoinTable = ({ coin }: Props) => {
   )
 
   if (data) return (
-    <div>
+    <Box
+      sx={{
+        maxWidth: "90vw",
+        overflowX: "auto",
+      }}
+    >
       <Typography variant='h6' textAlign='center' mb={2}>
         { coin.toUpperCase() } vs USD
       </Typography>
@@ -77,6 +82,6 @@ export const CoinTable = ({ coin }: Props) => {
         onPageChange={(_, page) => handleChangePage(page)}
         onRowsPerPageChange={(e) => handleLimitChange(e.target.value)}
       />
-    </div>
+    </Box>
   );
 }
